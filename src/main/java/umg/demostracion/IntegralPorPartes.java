@@ -1,22 +1,24 @@
 package umg.demostracion;
 
 import org.matheclipse.core.eval.ExprEvaluator;
-import org.matheclipse.core.expression.F;
 import org.matheclipse.core.interfaces.IExpr;
+import org.matheclipse.parser.client.SyntaxError;
+import org.matheclipse.parser.client.math.MathException;
+import java.util.logging.Logger;
+import java.util.logging.Level;
 
 public class IntegralPorPartes {
+    private final ExprEvaluator evaluador;
 
-    public static void main(String[] args) {
-        //evaluador de expresiones
-        ExprEvaluator eval = new ExprEvaluator();
+    public IntegralPorPartes(){
+        System.setProperty("org.slf4j.simpleLogger.defaultLogLevel", "OFF");
+        Logger.getLogger("org.matheclipse").setLevel(Level.OFF);
+        this.evaluador = new ExprEvaluator();
+    }
 
-        //Funcion a integrar
-        String integralPorPartes = "Integrate(x * Sin(x), x)";
-
-        //Evaluar la expresion
-        IExpr result = eval.eval(integralPorPartes);
-
-        //resultado
-        System.out.println("El resultado de la integral es: " + result);
+    public String integrar(String funcion, String variable) throws SyntaxError, MathException {
+        IExpr derivada = evaluador.eval("Integrate[" + funcion + "," + variable + "]");
+        return derivada.toString();
     }
 }
+
